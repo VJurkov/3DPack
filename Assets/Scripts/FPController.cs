@@ -8,6 +8,7 @@ public class FPController : MonoBehaviour
     public new Camera camera;
     public Transform groundDetector;
     public LayerMask groundLayer;
+    public GameManager gameManager;
 
     public float sensitivity = 100f;
     public float speed = 10f;
@@ -16,6 +17,13 @@ public class FPController : MonoBehaviour
     private float rotation = 0f;
     private Vector3 velocity = Vector3.zero;
     private float gravity = -9.81f;
+
+    private void Awake()
+    {
+        gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
+        
+    }
+
     void Start()
     {
         controller = GetComponent<CharacterController>();
@@ -67,6 +75,11 @@ public class FPController : MonoBehaviour
     private bool IsOnGround()
     {
         return Physics.CheckSphere(groundDetector.position, 0.5f, groundLayer);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        gameManager.CollisionDetected(collision, this);
     }
 }
 
