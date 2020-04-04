@@ -12,6 +12,7 @@ public class FPController : MonoBehaviour
 
     public float sensitivity = 100f;
     public float speed = 10f;
+    public bool isDead = false;
 
 
     private float rotation = 0f;
@@ -32,6 +33,10 @@ public class FPController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isDead)
+        {
+            return;
+        }
         //Mouse input
         float x = Input.GetAxis(InputStrings.MouseX) * sensitivity * Time.deltaTime;
         float y = Input.GetAxis(InputStrings.MouseY) * sensitivity * Time.deltaTime;
@@ -79,6 +84,7 @@ public class FPController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        Debug.Log("Somethiong");
         gameManager.CollisionDetected(collision, this);
     }
 }

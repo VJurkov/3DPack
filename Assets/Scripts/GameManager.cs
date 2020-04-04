@@ -8,11 +8,13 @@ public class GameManager : MonoBehaviour
     public int numberOfCollectable = 0;
     public float timeRemaining = 20f;
     public UIManager uIManager;
+    public FPController player;
 
 
     private void Awake()
     {
         uIManager = GameObject.FindGameObjectWithTag("UIManager").GetComponent<UIManager>();
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<FPController>();
     }
 
     public void CollisionDetected(Collision collision,FPController player)
@@ -24,6 +26,12 @@ public class GameManager : MonoBehaviour
             numberOfCollectable += 1;
             uIManager.ShowScore(numberOfCollectable);
         }
+        if (collision.gameObject.CompareTag("DeathPlane"))
+        {
+            Debug.Log("eeeeeeeeeee");
+            uIManager.ShowGameOver();
+            player.isDead = true;
+        }
     }
     private void FixedUpdate()
     {
@@ -32,6 +40,7 @@ public class GameManager : MonoBehaviour
             timeRemaining = 0;
             uIManager.ShowGameOver();
             uIManager.UpdateTime(timeRemaining);
+            player.isDead = true;
         }
         else
         {
